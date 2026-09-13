@@ -1,0 +1,34 @@
+project:
+  name: melting-tank-kpi-mlops-modeling
+  version: "0.2.0"
+  forecast_horizon_minutes: 1
+
+data:
+  sequence_length: 10
+  features:
+    - MELT_TEMP
+    - MOTORSPEED
+    - MELT_WEIGHT
+  target: TAG
+  positive_label: NG
+  target_rule: next-minute-majority
+  train_end: "2020-03-31 23:59:59"
+  validation_end: "2020-04-07 23:59:59"
+  test_ng_end: "2020-04-14 23:59:59"
+
+model:
+  lstm_units: 32
+  dense_units: 16
+  dropout: 0.2
+  learning_rate: 0.001
+  batch_size: 256
+  epochs: 30
+  ng_class_weight: 3.0
+
+kpi:
+  ng_recall_min: 0.90
+  ng_precision_min: 0.60
+  normal_false_alarm_rate_max: 0.05
+  false_negative_cost: 10.0
+  false_positive_cost: 1.0
+
